@@ -1,0 +1,101 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  text-align: left; /* Ensures all text defaults to left */
+}
+
+body {
+  display: flex;
+  align-items: flex-start; /* aligns content at the top */
+  justify-content: flex-start; /* aligns content to the left */
+  background: linear-gradient(#08112a, #0f1b2f);
+  color: #fff;
+  font-family: system-ui, Segoe UI, Roboto;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Image wall behind everything */
+#image-wall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://i.pinimg.com/1200x/b9/23/7f/b9237f2155874aad4d89109356ea4594.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+/* Canvas for effects */
+#canvas {
+  width: 100%;
+  height: 100vh;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Glass box in center */
+#glass-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65vw;
+  height: 65vh;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 50px;
+  backdrop-filter: blur(60px);
+  overflow: hidden; /* <- this ensures blur stays inside border-radius */
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 5px solid rgba(255, 255, 255, 1);
+  padding: 16px;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.5); /* softer shadow */
+
+}
+
+
+
+#glass-box p {
+  margin: 0;
+  font-size: 24px;
+  color: white;
+  font-weight: 500; /* makes text lighter */
+  https://www.printables.com/model/890972-evangelion-eva-0304-production-type-dummy13-system
+  text-align: left;
+}
+
+
+.controls {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(6px);
+  padding: 10px;
+  border-radius: 10px;
+  z-index: 3;
+  text-align: left;
+}
+
+.controls label {
+  display: block;
+  font-size: 13px;
+  margin: 6px 0;
+  text-align: left;
+}
+
+.controls input[type=range] {
+  width: 160px;
+}
