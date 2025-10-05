@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -168,6 +169,10 @@
       background: rgba(0, 0, 0, 0.85);
       z-index: 9999;
       padding: 30px;
+      width: 100%;
+      /* ✅ full width */
+      height: 100%;
+      /* ✅ full height */
     }
 
     #lightbox.show {
@@ -181,13 +186,14 @@
       display: grid;
       grid-template-rows: 1fr auto;
       gap: 12px;
+      width: 80%;
     }
 
     .lightbox-stage {
       position: relative;
       display: grid;
       place-items: center;
-      width: 50%;
+      width: 40%;
       background: rgba(10, 10, 12, 0.6);
       padding: 12px;
       border-radius: 12px;
@@ -228,8 +234,13 @@
       z-index: 2;
     }
 
-    .lb-prev { left: 8px; }
-    .lb-next { right: 8px; }
+    .lb-prev {
+      left: 8px;
+    }
+
+    .lb-next {
+      right: 8px;
+    }
 
     .lb-close {
       position: absolute;
@@ -385,11 +396,16 @@
     const leafImg = new Image();
     leafImg.src = "https://static.vecteezy.com/system/resources/previews/015/100/148/non_2x/autumn-leaf-transparent-background-free-png.png";
     class Leaf {
-      constructor(w, h) { this.reset(w, h); }
+      constructor(w, h) {
+        this.reset(w, h);
+      }
       reset(w, h) {
         this.x = rand(0, w);
         this.y = rand(h, -10);
-        this.linearVelocity = { x: rand(-0.2, 0.2), y: rand(0.6, 2.2) };
+        this.linearVelocity = {
+          x: rand(-0.2, 0.2),
+          y: rand(0.6, 2.2)
+        };
         this.size = rand(40, 100);
         this.rotation = rand(0, Math.PI * 2);
         this.angularSpeed = rand(-0.02, 0.02);
@@ -407,7 +423,8 @@
         this.y += this.linearVelocity.y * this.size * 0.06 * s;
         this.rotation += this.angularSpeed * s;
         if (this.y - this.size > h + 40 || this.x < -100 || this.x > w + 100) {
-          this.reset(w, h); this.y = rand(-200, -10);
+          this.reset(w, h);
+          this.y = rand(-200, -10);
         }
       }
       draw(ctx) {
@@ -444,8 +461,10 @@
       globalWind = Math.max(-1.2, Math.min(1.2, globalWind));
       requestAnimationFrame(frame);
     }
-    leafImg.onload = () => { regen(); requestAnimationFrame(frame); };
-
+    leafImg.onload = () => {
+      regen();
+      requestAnimationFrame(frame);
+    };
     /* Gallery code (unchanged except reversed order) */
     const githubUser = 'MaeNoSurname',
       repo = 'portfolio-images',
@@ -472,18 +491,23 @@
         div.tabIndex = 0;
         div.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault(); openLightbox(i);
+            e.preventDefault();
+            openLightbox(i);
           }
         });
       });
       images = Array.from(document.querySelectorAll('#image-scroll .image-container')).map(c => {
         const img = c.querySelector('img');
-        return { src: img.src, alt: img.alt, title: c.dataset.title, desc: c.dataset.desc };
+        return {
+          src: img.src,
+          alt: img.alt,
+          title: c.dataset.title,
+          desc: c.dataset.desc
+        };
       }).reverse();
       buildThumbs();
       if (images[0]) new Image().src = images[0].src;
     }
-
     const lightbox = document.getElementById('lightbox'),
       lbImage = document.getElementById('lb-image'),
       lbTitle = document.getElementById('lb-title'),
@@ -511,7 +535,10 @@
         n.classList.toggle('active', i === currentIndex);
       });
       const active = lbThumbs.children[currentIndex];
-      if (active) active.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+      if (active) active.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center'
+      });
     }
 
     function showAt(i) {
@@ -535,11 +562,12 @@
       lightbox.classList.remove('show');
       lightbox.setAttribute('aria-hidden', 'true');
     }
-
     lbPrev.addEventListener('click', () => showAt(currentIndex - 1));
     lbNext.addEventListener('click', () => showAt(currentIndex + 1));
     lbClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('show')) return;
       if (e.key === 'Escape') closeLightbox();
@@ -549,4 +577,5 @@
     fetchGithubImages();
   </script>
 </body>
+
 </html>
