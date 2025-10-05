@@ -450,15 +450,16 @@
           }
         });
       });
-      images = Array.from(document.querySelectorAll('#image-scroll .image-container')).map(c => {
-        const img = c.querySelector('img');
-        return {
-          src: img.src,
-          alt: img.alt,
-          title: c.dataset.title,
-          desc: c.dataset.desc
-        };
-      });
+images = Array.from(document.querySelectorAll('#image-scroll .image-container')).map(c => {
+  const img = c.querySelector('img');
+  return {
+    src: img.src,
+    alt: img.alt,
+    title: c.dataset.title,
+    desc: c.dataset.desc
+  };
+}).reverse(); // <-- just add this
+
       buildThumbs();
       if (images[0]) new Image().src = images[0].src;
     }
