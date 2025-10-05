@@ -1,213 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MaeNoSurname — Portfolio</title>
 
-  <!-- Primary favicon (used by most browsers) -->
   <link rel="icon" type="image/png" sizes="32x32" href="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg">
-
-  <!-- Apple touch icon (pinned to home on iOS) -->
   <link rel="apple-touch-icon" sizes="180x180" href="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg">
-
-  <!-- Optional: shortcut icon for older browsers -->
   <link rel="shortcut icon" href="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg">
 
-  <meta name="theme-color" content="#08112a">
-
-  <link rel="stylesheet" href="./style.css">
+  <meta name="theme-color" content="#1b0a2a">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    /* --- (your existing styles unchanged) --- */
-
-    html, body { height: 100%; margin: 0; text-align: left; }
-    body {
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      background: linear-gradient(#08112a, #0f1b2f);
-      color: #fff;
-      font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      overflow: hidden;
-      position: relative;
-    }
-
-    #image-wall {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://i.pinimg.com/1200x/b9/23/7f/b9237f2155874aad4d89109356ea4594.jpg');
-      background-size: cover;
-      background-position: center;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    #canvas { width: 100%; height: 100vh; display: block; position: absolute; top: 0; left: 0; z-index: 1; }
-
-    #glass-box {
-      display: flex;
-      flex-direction: row;
-      align-items: stretch;
-      justify-content: flex-start;
-      gap: 12px;
-      position: relative;
-      z-index: 2;
-      width: 70%;
-      height: 70%;
-      padding: 36px;
-      box-sizing: border-box;
-    }
-
-    #text-content { display:flex; flex-direction:column; justify-content:space-between; pointer-events:auto; width:30%; min-width:220px; }
-    #text-content h1, #text-content p { margin:0; color:white; text-align:left; }
-    #text-content p { font-size:20px; font-weight:400; }
-
-    .social-icons { display:flex; gap:16px; margin-top:12px; }
-    .social-icons a { color:white; font-size:28px; transition:0.3s; }
-    .social-icons a:hover { color:#1db954; }
-    .social-icons a.discord:hover { color:#7289da; }
-
-    #image-scroll {
-      flex:1;
-      min-width:0;
-      height:100%;
-      display:flex;
-      flex-direction:row;
-      gap:12px;
-      overflow-x:auto;
-      overflow-y:hidden;
-      pointer-events:auto;
-      align-items:stretch;
-      scroll-snap-type:x mandatory;
-      -webkit-overflow-scrolling:touch;
-      scroll-behavior:smooth;
-      padding-bottom:6px;
-    }
-
-    #image-scroll::-webkit-scrollbar { height:10px; }
-    #image-scroll::-webkit-scrollbar-track { background:rgba(255,255,255,0.03); border-radius:999px; }
-    #image-scroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.18); border-radius:999px; }
-
-    .image-container {
-      position:relative;
-      flex:0 0 100%;
-      height:100%;
-      border-radius:50px;
-      overflow:hidden;
-      cursor:pointer;
-      scroll-snap-align:start;
-      box-shadow:0 4px 18px rgba(0,0,0,0.35);
-      background:rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-
-    .image-container img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease, filter 0.35s ease; backface-visibility:hidden; }
-    .image-container:hover img { transform:scale(1.03); filter:brightness(0.6) blur(1px); }
-
-    .image-overlay {
-      position:absolute; left:0; right:0; bottom:0; padding:18px 20px; color:#fff;
-      background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.75) 100%);
-      transform:translateY(18px); opacity:0;
-      transition:transform 0.35s cubic-bezier(.2,.9,.2,1), opacity 0.35s ease; font-size:18px; text-align:center; pointer-events:none; line-height:1.3;
-    }
-
-    .image-container:hover .image-overlay { transform:translateY(0); opacity:1; pointer-events:auto; }
-    .image-overlay .title { font-weight:700; margin-bottom:6px; font-size:18px; }
-    .image-overlay .desc { font-weight:400; font-size:15px; color:#e6e6e6; }
-
-    @media (max-width:900px) {
-      #glass-box { flex-direction:column; align-items:stretch; padding:18px; gap:12px; }
-      #text-content { width:100%; min-width:0; }
-      #image-scroll { width:100%; min-width:0; height:220px; }
-      .image-container { flex:0 0 100%; height:220px; border-radius:14px; }
-      .image-overlay { font-size:14px; padding:12px; transform:translateY(10px); }
-      .image-overlay .title { font-size:15px; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
-  <div id="image-wall" aria-hidden="true"></div>
-  <canvas id="canvas" aria-hidden="true"></canvas>
+<body>
+  <canvas id="canvas"></canvas>
 
   <div id="glass-box">
-    <div id="text-content" role="region" aria-label="Profile">
+    <div id="text-content">
       <div>
+        <div class="pfp">
+          <img src="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg" alt="Profile Picture">
+        </div>
         <h1>MaeNoSurname</h1>
         <p>Programmer and Engineer</p>
         <p>She/her</p>
         <br>
-        <p style="font-weight:400; font-size:20px; color:#ddd;">I Tinker Robots And Make Games</p>
-        <p style="width:150px; align:center; color:#ccc;">
-          ⠀⠀⠀⠀⠀⠀ ⣀⣤⣄⠀
-          ⠀⠀⠀⣀⠀⠐⠏⠀⢘⡇
-          ⠀⠀⠀⠉⠀⠀⠀⠒⠻⣅
-          ⠀⠀⠀⣀⠀⢰⣆⠀⢀⣿
-          ⠀⠀⠀⠛⠀⠀⠙⠛⠋⠁
-        </p>
+        <p style="font-weight:400; font-size:18px; color:#ccc;">I Tinker Robots And Make Games</p>
       </div>
-
-      <div class="social-icons" aria-label="Social links">
-        <a href="https://open.spotify.com/user/31x3xdesvu2c253rjrxkqcxotswy" target="_blank" rel="noopener" title="Spotify"><i class="fab fa-spotify"></i></a>
-        <a href="https://discord.com/users/667348416321290240" target="_blank" rel="noopener" class="discord" title="Discord"><i class="fab fa-discord"></i></a>
+      <div class="social-icons">
+        <a href="https://open.spotify.com/user/31x3xdesvu2c253rjrxkqcxotswy" target="_blank" title="Spotify"><i class="fab fa-spotify"></i></a>
+        <a href="https://discord.com/users/667348416321290240" target="_blank" class="discord" title="Discord"><i class="fab fa-discord"></i></a>
       </div>
     </div>
 
-    <div id="image-scroll" aria-label="Image scroller">
-      <div class="image-container">
-        <img src="https://i.pinimg.com/736x/9d/b4/6b/9db46b79c4cc9b0622b4b73aa4ff5063.jpg" alt="Sunset silhouette over sea">
-        <div class="image-overlay" role="note" aria-hidden="false">
-          <div class="title">2000s' Styled Chat Game</div>
-          <div class="desc">A basic world with a day/night cycle and Chat styled as Windows Vista aesthetic.</div>
-        </div>
-      </div>
+    <div id="image-scroll" aria-label="Project gallery"></div>
+  </div>
 
-      <div class="image-container">
-        <img src="https://i.pinimg.com/736x/b2/94/f5/b294f50fbd0ba714ca3bfa9c5b53388d.jpg" alt="Forest path with golden light">
-        <div class="image-overlay" role="note">
-          <div class="title">2000s' Styled Chat Game</div>
-          <div class="desc">A basic world with a day/night cycle and Chat styled as Windows Vista aesthetic.</div>
-        </div>
+  <div id="lightbox" aria-hidden="true" role="dialog" aria-label="Project viewer">
+    <div class="lightbox-inner" role="document">
+      <button class="lb-close" aria-label="Close (Esc)"><i class="fa fa-times"></i></button>
+      <div class="lightbox-stage" id="lb-stage">
+        <button class="lb-btn lb-prev" aria-label="Previous (Left)"><i class="fa fa-chevron-left"></i></button>
+        <img id="lb-image" src="" alt="">
+        <button class="lb-btn lb-next" aria-label="Next (Right)"><i class="fa fa-chevron-right"></i></button>
       </div>
-
-      <div class="image-container">
-        <img src="https://i.pinimg.com/736x/b9/ef/1a/b9ef1ae10f9bfefcc7a10bdd070375d1.jpg" alt="City skyline reflected in water">
-        <div class="image-overlay" role="note">
-          <div class="title">2000s' Styled Chat Game</div>
-          <div class="desc">A basic world with a day/night cycle and Chat styled as Windows Vista aesthetic.</div>
+      <div class="lightbox-caption">
+        <div>
+          <strong id="lb-title"></strong>
+          <div id="lb-desc" style="opacity:0.9; font-size:14px;"></div>
         </div>
-      </div>
-
-      <div class="image-container">
-        <img src="https://i.pinimg.com/736x/43/83/1e/43831e21b7e38b5d5d9bdaa6a6a91752.jpg" alt="Mountain peaks under moonlight">
-        <div class="image-overlay" role="note">
-          <div class="title">Survival Factory building game</div>
-          <div class="desc">A factory building game akin to Factorio.</div>
-        </div>
-      </div>
-
-      <div class="image-container">
-        <img src="https://i.pinimg.com/736x/6a/25/0c/6a250cdfe919cb26afa3800b9cf5b7a1.jpg" alt="Close-up of flowers with dewdrops">
-        <div class="image-overlay" role="note">
-          <div class="title">Survival Factory building game</div>
-          <div class="desc">A factory building game akin to Factorio.</div>
-        </div>
-      </div>
-
-      <div class="image-container">
-        <img src="https://i.pinimg.com/736x/ec/e5/39/ece539820f01bd92631ca75524374f34.jpg" alt="Abstract pastel clouds">
-        <div class="image-overlay" role="note">
-          <div class="title">Survival Factory building game</div>
-          <div class="desc">A factory building game akin to Factorio.</div>
-        </div>
+        <div class="lightbox-thumbs" id="lb-thumbs" aria-hidden="false"></div>
       </div>
     </div>
   </div>
 
-  <script src="./script.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
