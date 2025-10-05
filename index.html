@@ -431,25 +431,26 @@
       const files = await res.json();
       const imageFiles = files.filter(f => /\.(png|jpe?g|gif|webp)$/i.test(f.name));
       imageScroll.innerHTML = '';
-      imageFiles.forEach((file, i) => {
-        const div = document.createElement('div');
-        div.className = 'image-container';
-        div.dataset.title = file.name.replace(/\.[^/.]+$/, "");
-        div.dataset.desc = 'GitHub hosted image';
-        const img = document.createElement('img');
-        img.src = file.download_url;
-        img.alt = file.name;
-        div.appendChild(img);
-        imageScroll.appendChild(div);
-        div.addEventListener('click', () => openLightbox(i));
-        div.tabIndex = 0;
-        div.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openLightbox(i);
-          }
-        });
-      });
+imageFiles.forEach((file, i) => {
+  const div = document.createElement('div');
+  div.className = 'image-container';
+  div.dataset.title = file.name.replace(/\.[^/.]+$/, "");
+  div.dataset.desc = 'GitHub hosted image';
+  const img = document.createElement('img');
+  img.src = file.download_url;
+  img.alt = file.name;
+  div.appendChild(img);
+  imageScroll.prepend(div); // <-- prepend reverses gallery order
+  div.addEventListener('click', () => openLightbox(i));
+  div.tabIndex = 0;
+  div.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openLightbox(i);
+    }
+  });
+});
+
 images = Array.from(document.querySelectorAll('#image-scroll .image-container')).map(c => {
   const img = c.querySelector('img');
   return {
