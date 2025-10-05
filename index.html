@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,7 +11,281 @@
 
   <meta name="theme-color" content="#1b0a2a">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      overflow: hidden;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: url('https://i.pinimg.com/1200x/b9/23/7f/b9237f2155874aad4d89109356ea4594.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #ffc97f;
+      position: relative;
+    }
+
+    #canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    #glass-box {
+      display: flex;
+      gap: 24px;
+      position: relative;
+      z-index: 2;
+      width: 80%;
+      height: 75%;
+      margin: auto;
+      padding: 32px;
+      box-sizing: border-box;
+      border-radius: 24px;
+      background: rgba(50, 25, 40, 0.55);
+      backdrop-filter: blur(14px) saturate(140%);
+      box-shadow: 0 0 40px rgba(255, 180, 100, 0.3);
+      border: 2px solid rgba(255, 160, 80, 0.3);
+    }
+
+    /* Text/Profile Section */
+    #text-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 30%;
+      min-width: 240px;
+    }
+
+    #text-content h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.3em;
+      color: #ffa64d;
+      text-shadow: 0 0 12px rgba(255, 180, 120, 0.5);
+    }
+
+    #text-content p {
+      margin: 0.2em 0;
+      font-size: 18px;
+      color: #e8e8e8;
+    }
+
+    .pfp {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 18px rgba(255, 180, 100, 0.4);
+      margin-bottom: 16px;
+    }
+
+    .pfp img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 28px;
+      transition: 0.3s;
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+    }
+
+    .social-icons a:hover {
+      color: #ffb347;
+      transform: scale(1.2) rotate(-5deg);
+    }
+
+    .social-icons a.discord:hover {
+      color: #7289da;
+    }
+
+    #image-scroll {
+      flex: 1;
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      align-content: start;
+      overflow-y: auto;
+      padding: 6px 0;
+      height: 100%;
+    }
+
+    @media (max-width: 900px) {
+      #image-scroll {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(260px, 85%);
+        grid-template-columns: none;
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 220px;
+        align-items: center;
+      }
+    }
+
+    #image-scroll::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    #image-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #ffb347, #ff6f3c);
+      border-radius: 999px;
+    }
+
+    .image-container {
+      position: relative;
+      display: block;
+      border-radius: 22px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+      background: rgba(0, 0, 0, 0.15);
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      height: 100%;
+      min-height: 160px;
+    }
+
+    .image-container:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+    }
+
+    .image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease, filter 0.35s ease;
+    }
+
+    /* Lightbox */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      padding: 30px;
+    }
+
+    #lightbox.show {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      max-width: 1100px;
+      width: calc(100% - 60px);
+      max-height: 90vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 12px;
+    }
+
+    .lightbox-stage {
+      position: relative;
+      /* make buttons positioned relative to this container */
+      display: grid;
+      place-items: center;
+      width: 50%;
+      background: rgba(10, 10, 12, 0.6);
+      padding: 12px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .lightbox-stage img {
+      max-width: 100%;
+      max-height: 78vh;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .lb-btn,
+    .lb-close {
+      background: rgba(0, 0, 0, 0.45);
+      border: none;
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      z-index: 2;
+    }
+
+    .lb-prev,
+    .lb-next {
+      position: absolute;
+      /* position inside .lightbox-stage */
+      top: 50%;
+      transform: translateY(-50%);
+      /* vertically center */
+      background: rgba(0, 0, 0, 0.45);
+      border: none;
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      z-index: 2;
+    }
+
+    .lb-prev {
+      left: 8px;
+      /* distance from left edge */
+    }
+
+    .lb-next {
+      right: 8px;
+      /* distance from right edge */
+    }
+
+    .lb-close {
+      position: absolute;
+      right: 8px;
+      top: 8px;
+    }
+
+    .lightbox-thumbs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      max-width: 50%;
+      padding: 6px 0;
+    }
+
+    .lightbox-thumbs img {
+      width: 84px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 8px;
+      opacity: 0.7;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: opacity 0.18s ease, transform 0.18s ease, border-color 0.15s ease;
+    }
+
+    .lightbox-thumbs img.active {
+      opacity: 1;
+      transform: translateY(-2px);
+      border-color: #ffb347;
+    }
+  </style>
 </head>
 
 <body>
@@ -57,7 +330,208 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // --- Canvas & Leaves ---
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    let DPR = Math.max(1, window.devicePixelRatio || 1);
+
+    function resize() {
+      DPR = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(innerWidth * DPR);
+      canvas.height = Math.floor(innerHeight * DPR);
+      canvas.style.width = innerWidth + "px";
+      canvas.style.height = innerHeight + "px";
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+    addEventListener("resize", resize);
+    resize();
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const leafImg = new Image();
+    leafImg.src = "https://static.vecteezy.com/system/resources/previews/015/100/148/non_2x/autumn-leaf-transparent-background-free-png.png";
+    class Leaf {
+      constructor(w, h) {
+        this.reset(w, h);
+      }
+      reset(w, h) {
+        this.x = rand(0, w);
+        this.y = rand(h, -10);
+        this.linearVelocity = {
+          x: rand(-0.2, 0.2),
+          y: rand(0.6, 2.2)
+        };
+        this.size = rand(40, 100);
+        this.rotation = rand(0, Math.PI * 2);
+        this.angularSpeed = rand(-0.02, 0.02);
+        this.swayPhase = rand(0, Math.PI * 2);
+        this.swaySpeed = rand(0.005, 0.015);
+        this.swayAmplitude = rand(6, 28);
+        this.opacity = rand(0.6, 1);
+      }
+      update(dt, w, h, globalWind) {
+        const s = dt / 16.6667;
+        this.swayPhase += this.swaySpeed * s;
+        const sway = Math.sin(this.swayPhase) * this.swayAmplitude;
+        this.linearVelocity.x += (globalWind - this.linearVelocity.x) * 0.002 * s;
+        this.x += (this.linearVelocity.x + sway * 0.001) * this.size * 0.12 * s;
+        this.y += this.linearVelocity.y * this.size * 0.06 * s;
+        this.rotation += this.angularSpeed * s;
+        if (this.y - this.size > h + 40 || this.x < -100 || this.x > w + 100) {
+          this.reset(w, h);
+          this.y = rand(-200, -10);
+        }
+      }
+      draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        const s = this.size;
+        ctx.drawImage(leafImg, -s / 2, -s / 2, s, s);
+        ctx.restore();
+      }
+    }
+    let leaves = [];
+    let last = performance.now();
+    let desiredCount = 15;
+    let globalWind = 0;
+
+    function regen() {
+      leaves = [];
+      for (let i = 0; i < desiredCount; i++) leaves.push(new Leaf(canvas.width / DPR, canvas.height / DPR));
+    }
+
+    function frame(now) {
+      const dt = now - last;
+      last = now;
+      const w = canvas.width / DPR;
+      const h = canvas.height / DPR;
+      ctx.clearRect(0, 0, w, h);
+      const maxLeafSize = Math.max(...leaves.map(l => l.size));
+      for (const leaf of leaves) leaf.update(dt, w, h, globalWind);
+      for (const leaf of leaves.filter(l => l.size <= maxLeafSize / 2)) leaf.draw(ctx);
+      for (const leaf of leaves.filter(l => l.size > maxLeafSize / 2)) leaf.draw(ctx);
+      globalWind += rand(-0.02, 0.02);
+      globalWind = Math.max(-1.2, Math.min(1.2, globalWind));
+      requestAnimationFrame(frame);
+    }
+    leafImg.onload = () => {
+      regen();
+      requestAnimationFrame(frame);
+    };
+    // --- Gallery Code (same as your original) ---
+    const githubUser = 'MaeNoSurname',
+      repo = 'portfolio-images',
+      folder = 'images',
+      apiURL = `https://api.github.com/repos/${githubUser}/${repo}/contents/${folder}`;
+    let images = [];
+    const imageScroll = document.getElementById('image-scroll');
+    async function fetchGithubImages() {
+      const res = await fetch(apiURL);
+      const files = await res.json();
+      const imageFiles = files.filter(f => /\.(png|jpe?g|gif|webp)$/i.test(f.name));
+      imageScroll.innerHTML = '';
+      imageFiles.forEach((file, i) => {
+        const div = document.createElement('div');
+        div.className = 'image-container';
+        div.dataset.title = file.name.replace(/\.[^/.]+$/, "");
+        div.dataset.desc = 'GitHub hosted image';
+        const img = document.createElement('img');
+        img.src = file.download_url;
+        img.alt = file.name;
+        div.appendChild(img);
+        imageScroll.appendChild(div);
+        div.addEventListener('click', () => openLightbox(i));
+        div.tabIndex = 0;
+        div.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openLightbox(i);
+          }
+        });
+      });
+      images = Array.from(document.querySelectorAll('#image-scroll .image-container')).map(c => {
+        const img = c.querySelector('img');
+        return {
+          src: img.src,
+          alt: img.alt,
+          title: c.dataset.title,
+          desc: c.dataset.desc
+        };
+      });
+      buildThumbs();
+      if (images[0]) new Image().src = images[0].src;
+    }
+    const lightbox = document.getElementById('lightbox'),
+      lbImage = document.getElementById('lb-image'),
+      lbTitle = document.getElementById('lb-title'),
+      lbDesc = document.getElementById('lb-desc'),
+      lbThumbs = document.getElementById('lb-thumbs'),
+      lbClose = document.querySelector('.lb-close'),
+      lbPrev = document.querySelector('.lb-prev'),
+      lbNext = document.querySelector('.lb-next');
+    let currentIndex = 0;
+
+    function buildThumbs() {
+      lbThumbs.innerHTML = '';
+      images.forEach((im, i) => {
+        const t = document.createElement('img');
+        t.src = im.src;
+        t.alt = im.alt;
+        t.dataset.index = i;
+        t.addEventListener('click', () => showAt(i));
+        lbThumbs.appendChild(t);
+      });
+    }
+
+    function updateThumbs() {
+      Array.from(lbThumbs.children).forEach((n, i) => {
+        n.classList.toggle('active', i === currentIndex);
+      });
+      const active = lbThumbs.children[currentIndex];
+      if (active) active.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center'
+      });
+    }
+
+    function showAt(i) {
+      currentIndex = (i + images.length) % images.length;
+      const im = images[currentIndex];
+      lbImage.src = im.src;
+      lbImage.alt = im.alt;
+      lbTitle.textContent = im.title;
+      lbDesc.textContent = im.desc;
+      updateThumbs();
+    }
+
+    function openLightbox(index = 0) {
+      showAt(index);
+      buildThumbs();
+      lightbox.classList.add('show');
+      lightbox.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('show');
+      lightbox.setAttribute('aria-hidden', 'true');
+    }
+    lbPrev.addEventListener('click', () => showAt(currentIndex - 1));
+    lbNext.addEventListener('click', () => showAt(currentIndex + 1));
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('show')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showAt(currentIndex - 1);
+      if (e.key === 'ArrowRight') showAt(currentIndex + 1);
+    });
+    fetchGithubImages();
+    // Horizontal scroll
+  </script>
+
 </body>
 
 </html>
