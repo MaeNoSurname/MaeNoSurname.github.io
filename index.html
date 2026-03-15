@@ -75,6 +75,39 @@
       color: #e8e8e8;
     }
 
+    .pfp-stack {
+      position: relative;
+      width: 240px;
+      height: 210px;
+      margin-bottom: 18px;
+    }
+
+    .pfp-card {
+      position: absolute;
+      width: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.28s ease;
+    }
+
+    .pfp-card:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
+
+    .pfp-card.primary {
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
+
+    .pfp-card.secondary {
+      top: 58px;
+      left: 92px;
+      z-index: 1;
+    }
+
     .pfp {
       width: 140px;
       height: 140px;
@@ -82,13 +115,26 @@
       overflow: hidden;
       border: 3px solid rgba(255, 255, 255, 0.25);
       box-shadow: 0 0 18px rgba(255, 180, 100, 0.4);
-      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .pfp img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .pfp-label {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.35;
+      color: #f4dfcf;
+      background: rgba(20, 10, 16, 0.45);
+      padding: 8px 10px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+      max-width: 150px;
     }
 
     .social-icons {
@@ -170,9 +216,7 @@
       z-index: 9999;
       padding: 30px;
       width: 100%;
-      /* ✅ full width */
       height: 100%;
-      /* ✅ full height */
     }
 
     #lightbox.show {
@@ -293,8 +337,19 @@
         align-items: center;
       }
 
-      .pfp {
+      .pfp-stack {
+        width: 220px;
+        height: 250px;
         margin: 0 auto 16px auto;
+      }
+
+      .pfp-card.primary {
+        left: 10px;
+      }
+
+      .pfp-card.secondary {
+        top: 92px;
+        left: 70px;
       }
 
       .social-icons {
@@ -340,9 +395,22 @@
   <div id="glass-box">
     <div id="text-content">
       <div>
-        <div class="pfp">
-          <img src="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg" alt="Profile Picture">
+        <div class="pfp-stack">
+          <div class="pfp-card primary">
+            <div class="pfp">
+              <img src="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg" alt="Primary profile picture">
+            </div>
+            <div class="pfp-label">Main profile image — warm autumn tones and soft lighting.</div>
+          </div>
+
+          <div class="pfp-card secondary">
+            <div class="pfp">
+              <img src="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg" alt="Secondary profile picture">
+            </div>
+            <div class="pfp-label">Alternate portrait — a second featured look for the profile.</div>
+          </div>
         </div>
+
         <h1>MaeNoSurname</h1>
         <p>Programmer and Hobbyist Engineer</p>
         <p>She/her</p>
@@ -377,7 +445,6 @@
   </div>
 
   <script>
-    /* same JavaScript as your original */
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     let DPR = Math.max(1, window.devicePixelRatio || 1);
@@ -392,9 +459,11 @@
     }
     addEventListener("resize", resize);
     resize();
+
     const rand = (a, b) => a + Math.random() * (b - a);
     const leafImg = new Image();
     leafImg.src = "https://static.vecteezy.com/system/resources/previews/015/100/148/non_2x/autumn-leaf-transparent-background-free-png.png";
+
     class Leaf {
       constructor(w, h) {
         this.reset(w, h);
@@ -437,6 +506,7 @@
         ctx.restore();
       }
     }
+
     let leaves = [];
     let last = performance.now();
     let desiredCount = 15;
@@ -461,33 +531,39 @@
       globalWind = Math.max(-1.2, Math.min(1.2, globalWind));
       requestAnimationFrame(frame);
     }
+
     leafImg.onload = () => {
       regen();
       requestAnimationFrame(frame);
     };
-    /* Gallery code (unchanged except reversed order) */
+
     const githubUser = 'MaeNoSurname',
       repo = 'portfolio-images',
       folder = 'images',
       apiURL = `https://api.github.com/repos/${githubUser}/${repo}/contents/${folder}`;
+
     let images = [];
     const imageScroll = document.getElementById('image-scroll');
+
     async function fetchGithubImages() {
       const res = await fetch(apiURL);
       const files = await res.json();
       const imageFiles = files.filter(f => /\.(png|jpe?g|gif|webp)$/i.test(f.name));
       imageScroll.innerHTML = '';
+
       imageFiles.forEach((file, i) => {
         const div = document.createElement('div');
         div.className = 'image-container';
         div.dataset.title = file.name.replace(/\.[^/.]+$/, "");
-        
         div.dataset.desc = ' ';
+
         const img = document.createElement('img');
         img.src = file.download_url;
         img.alt = file.name;
+
         div.appendChild(img);
         imageScroll.prepend(div);
+
         div.addEventListener('click', () => openLightbox(i));
         div.tabIndex = 0;
         div.addEventListener('keydown', (e) => {
@@ -497,6 +573,7 @@
           }
         });
       });
+
       images = Array.from(document.querySelectorAll('#image-scroll .image-container')).map(c => {
         const img = c.querySelector('img');
         return {
@@ -506,9 +583,11 @@
           desc: c.dataset.desc
         };
       }).reverse();
+
       buildThumbs();
       if (images[0]) new Image().src = images[0].src;
     }
+
     const lightbox = document.getElementById('lightbox'),
       lbImage = document.getElementById('lb-image'),
       lbTitle = document.getElementById('lb-title'),
@@ -517,6 +596,7 @@
       lbClose = document.querySelector('.lb-close'),
       lbPrev = document.querySelector('.lb-prev'),
       lbNext = document.querySelector('.lb-next');
+
     let currentIndex = 0;
 
     function buildThumbs() {
@@ -563,18 +643,22 @@
       lightbox.classList.remove('show');
       lightbox.setAttribute('aria-hidden', 'true');
     }
+
     lbPrev.addEventListener('click', () => showAt(currentIndex - 1));
     lbNext.addEventListener('click', () => showAt(currentIndex + 1));
     lbClose.addEventListener('click', closeLightbox);
+
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) closeLightbox();
     });
+
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('show')) return;
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowLeft') showAt(currentIndex - 1);
       if (e.key === 'ArrowRight') showAt(currentIndex + 1);
     });
+
     fetchGithubImages();
   </script>
 </body>
