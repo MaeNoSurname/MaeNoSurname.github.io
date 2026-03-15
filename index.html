@@ -77,64 +77,42 @@
 
     .pfp-stack {
       position: relative;
-      width: 240px;
-      height: 210px;
-      margin-bottom: 18px;
+      width: 190px;
+      height: 160px;
+      margin-bottom: 16px;
     }
 
-    .pfp-card {
+    .pfp {
       position: absolute;
-      width: 140px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      transition: transform 0.28s ease;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 18px rgba(255, 180, 100, 0.4);
+      background: rgba(255, 255, 255, 0.08);
     }
 
-    .pfp-card:hover {
-      transform: translateY(-4px) scale(1.02);
-    }
-
-    .pfp-card.primary {
+    .pfp.main {
       top: 0;
       left: 0;
       z-index: 2;
     }
 
-    .pfp-card.secondary {
-      top: 58px;
-      left: 92px;
+    .pfp.secondary {
+      top: 34px;
+      left: 72px;
+      width: 105px;
+      height: 105px;
       z-index: 1;
-    }
-
-    .pfp {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 0 18px rgba(255, 180, 100, 0.4);
-      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 179, 71, 0.45);
+      box-shadow: 0 0 16px rgba(255, 130, 80, 0.35);
     }
 
     .pfp img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    .pfp-label {
-      margin-top: 10px;
-      font-size: 13px;
-      line-height: 1.35;
-      color: #f4dfcf;
-      background: rgba(20, 10, 16, 0.45);
-      padding: 8px 10px;
-      border-radius: 12px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-      max-width: 150px;
     }
 
     .social-icons {
@@ -251,6 +229,30 @@
       border-radius: 10px;
     }
 
+    .lightbox-caption {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      color: #fff;
+      padding: 6px 4px 0;
+    }
+
+    #lb-title {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 6px;
+      color: #ffcc8f;
+    }
+
+    #lb-desc {
+      opacity: 0.95;
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 520px;
+      color: #f3f3f3;
+    }
+
     .lb-btn,
     .lb-close {
       background: rgba(0, 0, 0, 0.45);
@@ -338,18 +340,17 @@
       }
 
       .pfp-stack {
-        width: 220px;
-        height: 250px;
         margin: 0 auto 16px auto;
+        width: 170px;
+        height: 150px;
       }
 
-      .pfp-card.primary {
-        left: 10px;
+      .pfp.main {
+        left: 8px;
       }
 
-      .pfp-card.secondary {
-        top: 92px;
-        left: 70px;
+      .pfp.secondary {
+        left: 68px;
       }
 
       .social-icons {
@@ -381,6 +382,10 @@
         width: 100%;
       }
 
+      .lightbox-caption {
+        flex-direction: column;
+      }
+
       .lightbox-thumbs {
         max-width: 100%;
         justify-content: center;
@@ -396,18 +401,11 @@
     <div id="text-content">
       <div>
         <div class="pfp-stack">
-          <div class="pfp-card primary">
-            <div class="pfp">
-              <img src="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg" alt="Primary profile picture">
-            </div>
-            <div class="pfp-label">Main profile image — warm autumn tones and soft lighting.</div>
+          <div class="pfp main">
+            <img src="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg" alt="Main Profile Picture">
           </div>
-
-          <div class="pfp-card secondary">
-            <div class="pfp">
-              <img src="https://i1.sndcdn.com/artworks-000052564407-pa1ccs-t500x500.jpg" alt="Secondary profile picture">
-            </div>
-            <div class="pfp-label">Alternate portrait — a second featured look for the profile.</div>
+          <div class="pfp secondary">
+            <img src="https://i.pinimg.com/736x/e3/17/5b/e3175b29fa0b0dd31e4e83637b14bc63.jpg" alt="Secondary Profile Picture">
           </div>
         </div>
 
@@ -415,8 +413,9 @@
         <p>Programmer and Hobbyist Engineer</p>
         <p>She/her</p>
         <br>
-        <p style="font-weight:400; font-size:18px; color:#ccc;">I am a brisbane based Game Programmer </p>
+        <p style="font-weight:400; font-size:18px; color:#ccc;">I am a brisbane based Game Programmer</p>
       </div>
+
       <div class="social-icons">
         <a href="https://open.spotify.com/user/31x3xdesvu2c253rjrxkqcxotswy" target="_blank" title="Spotify"><i class="fab fa-spotify"></i></a>
         <a href="https://discord.com/users/667348416321290240" target="_blank" class="discord" title="Discord"><i class="fab fa-discord"></i></a>
@@ -437,7 +436,7 @@
       <div class="lightbox-caption">
         <div>
           <strong id="lb-title"></strong>
-          <div id="lb-desc" style="opacity:0.9; font-size:14px;"></div>
+          <div id="lb-desc"></div>
         </div>
         <div class="lightbox-thumbs" id="lb-thumbs" aria-hidden="false"></div>
       </div>
@@ -457,6 +456,7 @@
       canvas.style.height = innerHeight + "px";
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     }
+
     addEventListener("resize", resize);
     resize();
 
@@ -468,6 +468,7 @@
       constructor(w, h) {
         this.reset(w, h);
       }
+
       reset(w, h) {
         this.x = rand(0, w);
         this.y = rand(h, -10);
@@ -483,6 +484,7 @@
         this.swayAmplitude = rand(6, 28);
         this.opacity = rand(0.6, 1);
       }
+
       update(dt, w, h, globalWind) {
         const s = dt / 16.6667;
         this.swayPhase += this.swaySpeed * s;
@@ -491,11 +493,13 @@
         this.x += (this.linearVelocity.x + sway * 0.001) * this.size * 0.12 * s;
         this.y += this.linearVelocity.y * this.size * 0.06 * s;
         this.rotation += this.angularSpeed * s;
+
         if (this.y - this.size > h + 40 || this.x < -100 || this.x > w + 100) {
           this.reset(w, h);
           this.y = rand(-200, -10);
         }
       }
+
       draw(ctx) {
         ctx.save();
         ctx.globalAlpha = this.opacity;
@@ -514,7 +518,9 @@
 
     function regen() {
       leaves = [];
-      for (let i = 0; i < desiredCount; i++) leaves.push(new Leaf(canvas.width / DPR, canvas.height / DPR));
+      for (let i = 0; i < desiredCount; i++) {
+        leaves.push(new Leaf(canvas.width / DPR, canvas.height / DPR));
+      }
     }
 
     function frame(now) {
@@ -522,13 +528,17 @@
       last = now;
       const w = canvas.width / DPR;
       const h = canvas.height / DPR;
+
       ctx.clearRect(0, 0, w, h);
+
       const maxLeafSize = Math.max(...leaves.map(l => l.size));
       for (const leaf of leaves) leaf.update(dt, w, h, globalWind);
       for (const leaf of leaves.filter(l => l.size <= maxLeafSize / 2)) leaf.draw(ctx);
       for (const leaf of leaves.filter(l => l.size > maxLeafSize / 2)) leaf.draw(ctx);
+
       globalWind += rand(-0.02, 0.02);
       globalWind = Math.max(-1.2, Math.min(1.2, globalWind));
+
       requestAnimationFrame(frame);
     }
 
@@ -537,10 +547,23 @@
       requestAnimationFrame(frame);
     };
 
-    const githubUser = 'MaeNoSurname',
-      repo = 'portfolio-images',
-      folder = 'images',
-      apiURL = `https://api.github.com/repos/${githubUser}/${repo}/contents/${folder}`;
+    const githubUser = 'MaeNoSurname';
+    const repo = 'portfolio-images';
+    const folder = 'images';
+    const apiURL = `https://api.github.com/repos/${githubUser}/${repo}/contents/${folder}`;
+
+    const imageDescriptions = {
+      "image1": "A soft atmospheric piece with warm autumn tones and a dreamy mood.",
+      "image2": "Character-focused artwork with a calm composition and gentle lighting.",
+      "image3": "A darker styled piece with stronger contrast and a more dramatic feel.",
+      "image4": "Experimental visual work showing texture, color depth, and mood.",
+      "image5": "A polished portfolio image highlighting composition and visual detail."
+    };
+
+    function getImageDescription(fileName, fallbackTitle) {
+      const cleanName = fileName.replace(/\.[^/.]+$/, "").trim();
+      return imageDescriptions[cleanName] || `A featured portfolio piece from ${fallbackTitle}.`;
+    }
 
     let images = [];
     const imageScroll = document.getElementById('image-scroll');
@@ -549,29 +572,25 @@
       const res = await fetch(apiURL);
       const files = await res.json();
       const imageFiles = files.filter(f => /\.(png|jpe?g|gif|webp)$/i.test(f.name));
+
       imageScroll.innerHTML = '';
 
-      imageFiles.forEach((file, i) => {
+      imageFiles.forEach((file) => {
         const div = document.createElement('div');
         div.className = 'image-container';
-        div.dataset.title = file.name.replace(/\.[^/.]+$/, "");
-        div.dataset.desc = ' ';
+
+        const title = file.name.replace(/\.[^/.]+$/, "");
+        const desc = getImageDescription(file.name, title);
+
+        div.dataset.title = title;
+        div.dataset.desc = desc;
 
         const img = document.createElement('img');
         img.src = file.download_url;
-        img.alt = file.name;
+        img.alt = title;
 
         div.appendChild(img);
         imageScroll.prepend(div);
-
-        div.addEventListener('click', () => openLightbox(i));
-        div.tabIndex = 0;
-        div.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openLightbox(i);
-          }
-        });
       });
 
       images = Array.from(document.querySelectorAll('#image-scroll .image-container')).map(c => {
@@ -584,18 +603,32 @@
         };
       }).reverse();
 
+      Array.from(document.querySelectorAll('#image-scroll .image-container')).forEach((div, i) => {
+        div.addEventListener('click', () => openLightbox(i));
+        div.tabIndex = 0;
+        div.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openLightbox(i);
+          }
+        });
+      });
+
       buildThumbs();
-      if (images[0]) new Image().src = images[0].src;
+
+      if (images[0]) {
+        new Image().src = images[0].src;
+      }
     }
 
-    const lightbox = document.getElementById('lightbox'),
-      lbImage = document.getElementById('lb-image'),
-      lbTitle = document.getElementById('lb-title'),
-      lbDesc = document.getElementById('lb-desc'),
-      lbThumbs = document.getElementById('lb-thumbs'),
-      lbClose = document.querySelector('.lb-close'),
-      lbPrev = document.querySelector('.lb-prev'),
-      lbNext = document.querySelector('.lb-next');
+    const lightbox = document.getElementById('lightbox');
+    const lbImage = document.getElementById('lb-image');
+    const lbTitle = document.getElementById('lb-title');
+    const lbDesc = document.getElementById('lb-desc');
+    const lbThumbs = document.getElementById('lb-thumbs');
+    const lbClose = document.querySelector('.lb-close');
+    const lbPrev = document.querySelector('.lb-prev');
+    const lbNext = document.querySelector('.lb-next');
 
     let currentIndex = 0;
 
@@ -609,17 +642,21 @@
         t.addEventListener('click', () => showAt(i));
         lbThumbs.appendChild(t);
       });
+      updateThumbs();
     }
 
     function updateThumbs() {
       Array.from(lbThumbs.children).forEach((n, i) => {
         n.classList.toggle('active', i === currentIndex);
       });
+
       const active = lbThumbs.children[currentIndex];
-      if (active) active.scrollIntoView({
-        behavior: 'smooth',
-        inline: 'center'
-      });
+      if (active) {
+        active.scrollIntoView({
+          behavior: 'smooth',
+          inline: 'center'
+        });
+      }
     }
 
     function showAt(i) {
@@ -633,8 +670,8 @@
     }
 
     function openLightbox(index = 0) {
-      showAt(index);
-      buildThumbs();
+      currentIndex = index;
+      showAt(currentIndex);
       lightbox.classList.add('show');
       lightbox.setAttribute('aria-hidden', 'false');
     }
